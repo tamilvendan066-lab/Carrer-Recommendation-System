@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CarrySkills</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #262626;
+            --secondary-color: #8e8e8e;
+            --accent-color: #0095f6;
+            --text-color: #262626;
+            --light-bg: #fafafa;
+            --white: #ffffff;
+            --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-color: #dbdbdb;
+            --error-color: #ed4956;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--light-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+        }
+
+        .logo span {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .form-container {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #0081d6;
+        }
+
+        .toggle-form {
+            color: var(--secondary-color);
+            margin-top: 1rem;
+        }
+
+        .toggle-form a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .toggle-form a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        #signupForm {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>CarrySkills</span>
+        </a>
+
+        <!-- Login Form -->
+        <div class="form-container" id="loginForm">
+            <h2 class="form-title">Login to Your Account</h2>
+            <form onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required placeholder="Enter your email">
+                    <div class="error-message" id="loginEmailError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                    <div class="error-message" id="loginPasswordError"></div>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+            <p class="toggle-form">
+                Don't have an account?
+                <a href="#" onclick="toggleForms()">Sign Up</a>
+            </p>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div class="form-container" id="signupForm">
+            <h2 class="form-title">Create New Account</h2>
+            <form onsubmit="return handleSignup(event)">
+                <div class="form-group">
+                    <label for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" required placeholder="Choose a username">
+                    <div class="error-message" id="usernameError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required placeholder="Enter your email">
+                    <div class="error-message" id="emailError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Create Password</label>
+                    <input type="password" id="signupPassword" required placeholder="Create a password">
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required placeholder="Confirm your password">
+                    <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+                <button type="submit" class="submit-btn">Sign Up</button>
+            </form>
+            <p class="toggle-form">
+                Already have an account?
+                <a href="#" onclick="toggleForms()">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between login and signup forms
+        function toggleForms() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+            }
+        }
+
+        // Handle login form submission
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Find user with matching email and password
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // Store logged in user
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                // Redirect to home page
+                window.location.href = 'index.html';
+            } else {
+                document.getElementById('loginEmailError').textContent = 'Invalid email or password';
+                document.getElementById('loginEmailError').style.display = 'block';
+            }
+        }
+
+        // Handle signup form submission
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Reset error messages
+            document.getElementById('usernameError').style.display = 'none';
+            document.getElementById('emailError').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
+            document.getElementById('confirmPasswordError').style.display = 'none';
+            
+            // Validate password match
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+                document.getElementById('confirmPasswordError').style.display = 'block';
+                return false;
+            }
+            
+            // Get existing users
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Check if email already exists
+            if (users.some(user => user.email === email)) {
+                document.getElementById('emailError').textContent = 'Email already exists';
+                document.getElementById('emailError').style.display = 'block';
+                return false;
+            }
+            
+            // Create new user
+            const newUser = {
+                username,
+                email,
+                password,
+                dateCreated: new Date().toISOString()
+            };
+            
+            // Add user to array and save to localStorage
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Store current user and redirect to home page
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            window.location.href = 'index.html';
+        }
+
+        // Password validation
+        document.getElementById('signupPassword').addEventListener('input', function(e) {
+            const password = e.target.value;
+            const errorElement = document.getElementById('passwordError');
+            
+            if (password.length < 8) {
+                errorElement.textContent = 'Password must be at least 8 characters long';
+                errorElement.style.display = 'block';
+            } else if (!/[A-Z]/.test(password)) {
+                errorElement.textContent = 'Password must contain at least one uppercase letter';
+                errorElement.style.display = 'block';
+            } else if (!/[0-9]/.test(password)) {
+                errorElement.textContent = 'Password must contain at least one number';
+                errorElement.style.display = 'block';
+            } else {
+                errorElement.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 

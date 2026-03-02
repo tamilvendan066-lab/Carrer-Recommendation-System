@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder - CarrySkills</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --light-bg: #f5f6fa;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 100px auto 2rem;
+            padding: 0 2rem;
+        }
+
+        /* Resume Guide Section */
+        .resume-guide {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .resume-guide h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .guide-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--light-bg);
+            border-radius: 10px;
+        }
+
+        .guide-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .guide-section ul {
+            list-style: none;
+            margin-left: 1.5rem;
+        }
+
+        .guide-section li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .guide-section li:before {
+            content: '\f0a4';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Resume Form */
+        .resume-form {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--light-bg);
+            border-radius: 10px;
+        }
+
+        .form-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .add-section-btn {
+            background: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .add-section-btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .generate-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .generate-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .download-btn {
+            background: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .download-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                CarrySkills
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact</a></li>
+                    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Resume Guide Section -->
+        <section class="resume-guide">
+            <h2><i class="fas fa-book"></i> Resume Writing Guide</h2>
+            
+            <div class="guide-section">
+                <h3><i class="fas fa-check-circle"></i> Essential Resume Components</h3>
+                <ul>
+                    <li>Contact information (email, phone, LinkedIn)</li>
+                    <li>Professional summary highlighting key strengths</li>
+                    <li>Work experience with measurable achievements</li>
+                    <li>Educational background and certifications</li>
+                    <li>Technical skills and competencies</li>
+                    <li>Projects and notable accomplishments</li>
+                </ul>
+            </div>
+
+            <div class="guide-section">
+                <h3><i class="fas fa-star"></i> Best Practices</h3>
+                <ul>
+                    <li>Keep your resume concise (1-2 pages)</li>
+                    <li>Use bullet points for better readability</li>
+                    <li>Include relevant keywords from job descriptions</li>
+                    <li>Quantify achievements with numbers and metrics</li>
+                    <li>Use action verbs to describe responsibilities</li>
+                    <li>Maintain consistent formatting throughout</li>
+                </ul>
+            </div>
+
+            <div class="guide-section">
+                <h3><i class="fas fa-exclamation-circle"></i> Common Mistakes to Avoid</h3>
+                <ul>
+                    <li>Using generic objectives or summaries</li>
+                    <li>Including personal information (age, marital status)</li>
+                    <li>Using unprofessional email addresses</li>
+                    <li>Listing irrelevant experience</li>
+                    <li>Making spelling or grammatical errors</li>
+                    <li>Using complex fonts or layouts</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Resume Builder Form -->
+        <section class="resume-form">
+            <h2><i class="fas fa-edit"></i> Build Your Resume</h2>
+
+            <form id="resumeForm">
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h3><i class="fas fa-user"></i> Personal Information</h3>
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="linkedin">LinkedIn Profile (Optional)</label>
+                        <input type="url" id="linkedin">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" placeholder="City, Country" required>
+                    </div>
+                </div>
+
+                <!-- Professional Summary -->
+                <div class="form-section">
+                    <h3><i class="fas fa-file-alt"></i> Professional Summary</h3>
+                    <div class="form-group">
+                        <label for="summary">Write a brief professional summary</label>
+                        <textarea id="summary" rows="4" placeholder="Highlight your key strengths and career objectives" required></textarea>
+                    </div>
+                </div>
+
+                <!-- Work Experience -->
+                <div class="form-section">
+                    <h3><i class="fas fa-briefcase"></i> Work Experience</h3>
+                    <div id="workExperience">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" class="company-name" required>
+                            <label>Position</label>
+                            <input type="text" class="position" required>
+                            <label>Duration</label>
+                            <input type="text" class="duration" placeholder="e.g., Jan 2020 - Present" required>
+                            <label>Key Responsibilities & Achievements</label>
+                            <textarea class="responsibilities" rows="4" placeholder="Use bullet points to list your achievements" required></textarea>
+                        </div>
+                    </div>
+                    <button type="button" class="add-section-btn" onclick="addWorkExperience()">
+                        <i class="fas fa-plus"></i> Add More Experience
+                    </button>
+                </div>
+
+                <!-- Education -->
+                <div class="form-section">
+                    <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                    <div id="education">
+                        <div class="form-group">
+                            <label>Degree/Certificate</label>
+                            <input type="text" class="degree" required>
+                            <label>Institution</label>
+                            <input type="text" class="institution" required>
+                            <label>Duration</label>
+                            <input type="text" class="year" placeholder="e.g., 2018 - 2022" required>
+                            <label>GPA/Score</label>
+                            <input type="text" class="gpa" placeholder="Optional">
+                        </div>
+                    </div>
+                    <button type="button" class="add-section-btn" onclick="addEducation()">
+                        <i class="fas fa-plus"></i> Add More Education
+                    </button>
+                </div>
+
+                <!-- Skills -->
+                <div class="form-section">
+                    <h3><i class="fas fa-tools"></i> Skills</h3>
+                    <div class="form-group">
+                        <label for="skills">List your key skills (separated by commas)</label>
+                        <textarea id="skills" rows="3" placeholder="e.g., JavaScript, Python, Project Management, Team Leadership" required></textarea>
+                    </div>
+                </div>
+
+                <!-- Projects -->
+                <div class="form-section">
+                    <h3><i class="fas fa-project-diagram"></i> Projects</h3>
+                    <div id="projects">
+                        <div class="form-group">
+                            <label>Project Name</label>
+                            <input type="text" class="project-name">
+                            <label>Description</label>
+                            <textarea class="project-description" rows="3" placeholder="Describe the project, technologies used, and your role"></textarea>
+                            <label>Project URL (Optional)</label>
+                            <input type="url" class="project-url">
+                        </div>
+                    </div>
+                    <button type="button" class="add-section-btn" onclick="addProject()">
+                        <i class="fas fa-plus"></i> Add More Projects
+                    </button>
+                </div>
+
+                <button type="submit" class="generate-btn">
+                    <i class="fas fa-file-download"></i> Generate Resume
+                </button>
+
+                <button type="button" class="download-btn" onclick="downloadATSResume()">
+                    <i class="fas fa-download"></i> Download ATS-Friendly Resume
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        function addWorkExperience() {
+            const workExp = document.getElementById('workExperience');
+            const newExp = workExp.children[0].cloneNode(true);
+            // Clear the input values
+            newExp.querySelectorAll('input, textarea').forEach(input => input.value = '');
+            workExp.appendChild(newExp);
+        }
+
+        function addEducation() {
+            const education = document.getElementById('education');
+            const newEdu = education.children[0].cloneNode(true);
+            // Clear the input values
+            newEdu.querySelectorAll('input').forEach(input => input.value = '');
+            education.appendChild(newEdu);
+        }
+
+        function addProject() {
+            const projects = document.getElementById('projects');
+            const newProject = projects.children[0].cloneNode(true);
+            // Clear the input values
+            newProject.querySelectorAll('input, textarea').forEach(input => input.value = '');
+            projects.appendChild(newProject);
+        }
+
+        function downloadATSResume() {
+            // Get form data
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const location = document.getElementById('location').value;
+            const summary = document.getElementById('summary').value;
+            const skills = document.getElementById('skills').value;
+
+            // Create ATS-friendly resume content
+            const resumeContent = `
+${fullName}
+${email} | ${phone} | ${location}
+
+PROFESSIONAL SUMMARY
+${summary}
+
+SKILLS
+${skills}
+
+WORK EXPERIENCE
+${getWorkExperience()}
+
+EDUCATION
+${getEducation()}
+
+PROJECTS
+${getProjects()}
+`;
+
+            // Create blob and trigger download
+            const blob = new Blob([resumeContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${fullName.replace(/\s+/g, '_')}_ATS_Resume.txt`;
+            
+            // Trigger download
+            document.body.appendChild(a);
+            a.click();
+            
+            // Cleanup
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        function getWorkExperience() {
+            let experience = '';
+            const workExps = document.querySelectorAll('#workExperience .form-group');
+            workExps.forEach(exp => {
+                const company = exp.querySelector('.company-name').value;
+                const position = exp.querySelector('.position').value;
+                const duration = exp.querySelector('.duration').value;
+                const responsibilities = exp.querySelector('.responsibilities').value;
+
+                experience += `\n${position}\n${company} | ${duration}\n${responsibilities}\n`;
+            });
+            return experience;
+        }
+
+        function getEducation() {
+            let education = '';
+            const edus = document.querySelectorAll('#education .form-group');
+            edus.forEach(edu => {
+                const degree = edu.querySelector('.degree').value;
+                const institution = edu.querySelector('.institution').value;
+                const year = edu.querySelector('.year').value;
+                const gpa = edu.querySelector('.gpa').value;
+
+                education += `\n${degree}\n${institution} | ${year}${gpa ? ` | GPA: ${gpa}` : ''}\n`;
+            });
+            return education;
+        }
+
+        function getProjects() {
+            let projects = '';
+            const projs = document.querySelectorAll('#projects .form-group');
+            projs.forEach(proj => {
+                const name = proj.querySelector('.project-name').value;
+                const description = proj.querySelector('.project-description').value;
+                const url = proj.querySelector('.project-url').value;
+
+                projects += `\n${name}\n${description}${url ? `\nURL: ${url}` : ''}\n`;
+            });
+            return projects;
+        }
+
+        document.getElementById('resumeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you can add code to generate the resume
+            alert('Your resume is being generated! This feature will be available soon.');
+        });
+    </script>
+</body>
+</html> 

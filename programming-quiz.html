@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Fundamentals Quiz - CarrySkills</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles/modern-theme.css">
+    <link rel="stylesheet" href="styles/quiz-styles.css">
+    <style>
+        /* Theme Variables */
+        :root {
+            /* Light Theme (Default) */
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --background-color: #f5f7fa;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --border-color: #e1e1e1;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --primary-color: #4a9eff;
+            --secondary-color: #a0a0a0;
+            --accent-color: #ff6b6b;
+            --background-color: #1a1a1a;
+            --card-background: #2d2d2d;
+            --text-color: #ffffff;
+            --border-color: #404040;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: var(--card-background);
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .theme-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .theme-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Modern Animations */
+        @keyframes fadeScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced Styles */
+        body {
+            background: var(--background-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .quiz-container {
+            animation: fadeScale 0.5s ease;
+        }
+
+        .question-container {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            animation: slideIn 0.5s ease;
+            animation-fill-mode: both;
+        }
+
+        .question-container:nth-child(n) {
+            animation-delay: calc(n * 0.1s);
+        }
+
+        .option {
+            background: var(--card-background);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            transform: translateX(10px);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .option.selected {
+            background: var(--primary-color);
+            color: white;
+            transform: translateX(10px);
+        }
+
+        /* Result Modal Enhancement */
+        .result-modal {
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            animation: fadeScale 0.3s ease;
+            background: var(--card-background);
+            color: var(--text-color);
+        }
+
+        .expertise-level {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .expertise-level.beginner {
+            background: #ff6b6b20;
+            color: #ff6b6b;
+        }
+
+        .expertise-level.intermediate {
+            background: #ffd93d20;
+            color: #ffd93d;
+        }
+
+        .expertise-level.expert {
+            background: #6bff6b20;
+            color: #6bff6b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                CareerGuide
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact</a></li>
+                    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>Programming Fundamentals Quiz</h1>
+            <p>Test your knowledge with these questions. Your expertise level will be evaluated based on your performance.</p>
+        </div>
+
+        <div id="quiz-questions">
+            <!-- Question 1 -->
+            <div class="question-container">
+                <p class="question">1. What is the primary purpose of variables in programming?</p>
+                <div class="options">
+                    <div class="option" data-correct="true" onclick="selectOption(this)">A) To store and manage data in memory</div>
+                    <div class="option" onclick="selectOption(this)">B) To create user interfaces</div>
+                    <div class="option" onclick="selectOption(this)">C) To connect to databases</div>
+                    <div class="option" onclick="selectOption(this)">D) To format code structure</div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-container">
+                <p class="question">2. Which of the following is NOT a common control structure in programming?</p>
+                <div class="options">
+                    <div class="option" onclick="selectOption(this)">A) If-else statements</div>
+                    <div class="option" onclick="selectOption(this)">B) For loops</div>
+                    <div class="option" data-correct="true" onclick="selectOption(this)">C) Paint structure</div>
+                    <div class="option" onclick="selectOption(this)">D) While loops</div>
+                </div>
+            </div>
+
+            <!-- Add more unique questions here -->
+        </div>
+
+        <div class="quiz-controls">
+            <button class="quiz-btn submit-btn" onclick="submitQuiz()">Submit Quiz</button>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="modal-content">
+            <h2>Quiz Results</h2>
+            <div class="score" id="score"></div>
+            <div class="expertise-level" id="expertiseLevel"></div>
+            <p class="feedback" id="feedback"></p>
+            <div class="modal-buttons">
+                <button class="quiz-btn submit-btn" onclick="retakeQuiz()">Retake Quiz</button>
+                <button class="quiz-btn submit-btn" onclick="window.location.href='quiz.html'">Back to Quizzes</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="theme-switcher">
+        <button class="theme-btn active" data-theme="light">Light</button>
+        <button class="theme-btn" data-theme="dark">Dark</button>
+    </div>
+
+    <script src="scripts/theme-handler.js"></script>
+    <script>
+        function selectOption(option) {
+            const questionContainer = option.closest('.question-container');
+            questionContainer.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            option.classList.add('selected');
+        }
+
+        function calculateExpertiseLevel(score) {
+            if (score >= 85) return ["Expert", "expert"];
+            if (score >= 65) return ["Intermediate", "intermediate"];
+            return ["Beginner", "beginner"];
+        }
+
+        function getFeedback(score, level) {
+            const feedback = {
+                Expert: "Outstanding! You demonstrate expert-level knowledge in programming fundamentals. You're ready for advanced concepts!",
+                Intermediate: "Good job! You have a solid grasp of programming fundamentals. Keep learning to reach expert level!",
+                Beginner: "You're at the beginning of your programming journey. Focus on strengthening your understanding of the basics."
+            };
+            return feedback[level];
+        }
+
+        function submitQuiz() {
+            const questions = document.querySelectorAll('.question-container');
+            let correct = 0;
+            let total = questions.length;
+            
+            questions.forEach(question => {
+                const selectedOption = question.querySelector('.option.selected');
+                const correctOption = question.querySelector('.option[data-correct="true"]');
+                
+                if (selectedOption && selectedOption === correctOption) {
+                    correct++;
+                }
+            });
+
+            const score = Math.round((correct / total) * 100);
+            const [expertiseLevel, levelClass] = calculateExpertiseLevel(score);
+            
+            localStorage.setItem('programming-fundamentals-score', score);
+            
+            document.getElementById('score').textContent = `${score}%`;
+            document.getElementById('expertiseLevel').textContent = `Expertise Level: ${expertiseLevel}`;
+            document.getElementById('feedback').textContent = getFeedback(score, expertiseLevel);
+            document.getElementById('resultModal').style.display = 'flex';
+        }
+
+        function retakeQuiz() {
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.getElementById('resultModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

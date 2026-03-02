@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Assessment Quiz - CarrySkills</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #262626;
+            --secondary-color: #8e8e8e;
+            --accent-color: #0095f6;
+            --text-color: #262626;
+            --light-bg: #fafafa;
+            --white: #ffffff;
+            --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-color: #dbdbdb;
+            --success-color: #00c851;
+            --warning-color: #ffbb33;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.8rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        nav a.active {
+            color: var(--accent-color);
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            max-width: 1200px;
+            margin: 100px auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .quiz-container h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .subject-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .subject-section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .subject-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .subject-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .topic {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .topic h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .topic ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .topic li {
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .topic li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--accent-color);
+            font-size: 0.8rem;
+        }
+
+        .quiz-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .quiz-link {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quiz-link:hover {
+            background: #0081d6;
+            transform: translateY(-2px);
+        }
+
+        .result-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--light-bg);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .result-btn:hover {
+            background: var(--border-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--white);
+            margin: 15% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary-color);
+            transition: var(--transition);
+        }
+
+        .close:hover {
+            color: var(--primary-color);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--white);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .social-icons {
+            margin-bottom: 1rem;
+        }
+
+        .social-icons a {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+
+        footer p {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .subject-sections {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-buttons {
+                flex-direction: column;
+            }
+
+            .quiz-link, .result-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                CareerGuide
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
+                    <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="quiz-container">
+        <h1>Career Assessment Quiz</h1>
+        <div class="subject-sections">
+            <!-- Programming Section -->
+            <div class="subject-section">
+                <h2><i class="fas fa-code"></i> Programming & Development</h2>
+                <div class="topics">
+                    <div class="topic">
+                        <h3><i class="fas fa-laptop-code"></i> Programming Fundamentals</h3>
+                        <ul>
+                            <li>Basic Programming Concepts</li>
+                            <li>Data Types and Variables</li>
+                            <li>Control Structures</li>
+                            <li>Functions and Methods</li>
+                            <li>Object-Oriented Programming</li>
+                        </ul>
+                        <div class="quiz-buttons">
+                            <a href="programming-quiz.html" class="quiz-link">
+                                <i class="fas fa-play"></i> Take Quiz
+                            </a>
+                            <button class="result-btn" onclick="showResult('programming-fundamentals')">
+                                <i class="fas fa-chart-bar"></i> Result: <span id="programming-fundamentals-score">--</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="topic">
+                        <h3><i class="fas fa-globe"></i> Web Development</h3>
+                        <ul>
+                            <li>HTML & CSS</li>
+                            <li>JavaScript</li>
+                            <li>Frontend Frameworks</li>
+                            <li>Backend Development</li>
+                            <li>Database Integration</li>
+                        </ul>
+                        <div class="quiz-buttons">
+                            <a href="https://forms.gle/example2" class="quiz-link">
+                                <i class="fas fa-play"></i> Take Quiz
+                            </a>
+                            <button class="result-btn" onclick="showResult('web-development')">
+                                <i class="fas fa-chart-bar"></i> Result: <span id="web-development-score">--</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Database Section -->
+            <div class="subject-section">
+                <h2><i class="fas fa-database"></i> Database Management</h2>
+                <div class="topics">
+                    <div class="topic">
+                        <h3><i class="fas fa-table"></i> Database Concepts</h3>
+                        <ul>
+                            <li>Database Design</li>
+                            <li>SQL Queries</li>
+                            <li>Normalization</li>
+                            <li>Database Security</li>
+                            <li>Data Warehousing</li>
+                        </ul>
+                        <div class="quiz-buttons">
+                            <a href="https://forms.gle/example3" class="quiz-link">
+                                <i class="fas fa-play"></i> Take Quiz
+                            </a>
+                            <button class="result-btn" onclick="showResult('database-concepts')">
+                                <i class="fas fa-chart-bar"></i> Result: <span id="database-concepts-score">--</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Networking Section -->
+            <div class="subject-section">
+                <h2><i class="fas fa-network-wired"></i> Computer Networks</h2>
+                <div class="topics">
+                    <div class="topic">
+                        <h3><i class="fas fa-server"></i> Network Fundamentals</h3>
+                        <ul>
+                            <li>Network Architecture</li>
+                            <li>Protocols</li>
+                            <li>Network Security</li>
+                            <li>Cloud Computing</li>
+                            <li>Network Administration</li>
+                        </ul>
+                        <div class="quiz-buttons">
+                            <a href="https://forms.gle/example4" class="quiz-link">
+                                <i class="fas fa-play"></i> Take Quiz
+                            </a>
+                            <button class="result-btn" onclick="showResult('network-fundamentals')">
+                                <i class="fas fa-chart-bar"></i> Result: <span id="network-fundamentals-score">--</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Science Section -->
+            <div class="subject-section">
+                <h2><i class="fas fa-chart-line"></i> Data Science & Analytics</h2>
+                <div class="topics">
+                    <div class="topic">
+                        <h3><i class="fas fa-chart-pie"></i> Data Analysis</h3>
+                        <ul>
+                            <li>Data Visualization</li>
+                            <li>Statistical Analysis</li>
+                            <li>Machine Learning Basics</li>
+                            <li>Big Data Concepts</li>
+                            <li>Business Intelligence</li>
+                        </ul>
+                        <div class="quiz-buttons">
+                            <a href="https://forms.gle/example5" class="quiz-link">
+                                <i class="fas fa-play"></i> Take Quiz
+                            </a>
+                            <button class="result-btn" onclick="showResult('data-analysis')">
+                                <i class="fas fa-chart-bar"></i> Result: <span id="data-analysis-score">--</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Section -->
+            <div class="subject-section">
+                <h2><i class="fas fa-shield-alt"></i> Cybersecurity</h2>
+                <div class="topics">
+                    <div class="topic">
+                        <h3><i class="fas fa-lock"></i> Security Fundamentals</h3>
+                        <ul>
+                            <li>Network Security</li>
+                            <li>Cryptography</li>
+                            <li>Ethical Hacking</li>
+                            <li>Security Policies</li>
+                            <li>Risk Management</li>
+                        </ul>
+                        <div class="quiz-buttons">
+                            <a href="https://forms.gle/example6" class="quiz-link">
+                                <i class="fas fa-play"></i> Take Quiz
+                            </a>
+                            <button class="result-btn" onclick="showResult('security-fundamentals')">
+                                <i class="fas fa-chart-bar"></i> Result: <span id="security-fundamentals-score">--</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Quiz Result</h2>
+            <div id="resultContent"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <p>Contact: support@careerguide.com | Address: Your City, Country</p>
+        <p>&copy; 2024 CareerGuide. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Show quiz result modal
+        function showResult(quizId) {
+            const modal = document.getElementById('resultModal');
+            const resultContent = document.getElementById('resultContent');
+            const score = localStorage.getItem(quizId + '-score') || 'Not taken yet';
+            
+            resultContent.innerHTML = `
+                <h3>${quizId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</h3>
+                <p>Your Score: ${score}</p>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        // Close modal
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('resultModal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('resultModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Load saved scores
+        function loadScores() {
+            const quizIds = [
+                'programming-fundamentals',
+                'web-development',
+                'database-concepts',
+                'network-fundamentals',
+                'data-analysis',
+                'security-fundamentals'
+            ];
+            
+            quizIds.forEach(id => {
+                const score = localStorage.getItem(id + '-score');
+                if (score) {
+                    document.getElementById(id + '-score').textContent = score;
+                }
+            });
+        }
+
+        // Call loadScores when page loads
+        window.addEventListener('load', loadScores);
+    </script>
+</body>
+</html> 

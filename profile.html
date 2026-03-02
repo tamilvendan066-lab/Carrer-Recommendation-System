@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Career Recommendation System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #262626;
+            --secondary-color: #8e8e8e;
+            --accent-color: #0095f6;
+            --text-color: #262626;
+            --light-bg: #fafafa;
+            --white: #ffffff;
+            --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-color: #dbdbdb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--light-bg);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.8rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 975px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        nav a.active {
+            color: var(--accent-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 975px;
+            margin: 80px auto 2rem;
+            padding: 0 2rem;
+        }
+
+        /* Cover Photo Styles */
+        .cover-photo-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            background: var(--light-bg);
+        }
+
+        .cover-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .edit-cover-photo {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .edit-cover-photo:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* Profile Picture Styles */
+        .profile-picture-wrapper {
+            position: absolute;
+            left: 50px;
+            bottom: -50px;
+            width: 168px;
+            height: 168px;
+            border-radius: 50%;
+            border: 4px solid var(--white);
+            background: var(--white);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-picture-edit {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--white);
+            text-align: center;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            opacity: 0;
+        }
+
+        .profile-picture-wrapper:hover .profile-picture-edit {
+            opacity: 1;
+        }
+
+        .profile-picture-edit i {
+            font-size: 1.2rem;
+        }
+
+        .profile-upload-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: var(--accent-color);
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 3px solid var(--white);
+            box-shadow: var(--shadow);
+            z-index: 3;
+        }
+
+        .profile-upload-btn:hover {
+            transform: scale(1.1);
+            background: #0081d6;
+        }
+
+        .profile-picture-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+            color: var(--white);
+            font-size: 0.9rem;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .profile-picture-wrapper:hover .profile-picture-overlay {
+            opacity: 1;
+        }
+
+        /* Profile Info Styles Update */
+        .profile-header {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .profile-info {
+            padding: 70px 2rem 2rem;
+        }
+
+        .profile-header-top {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-name-section {
+            margin-left: 168px;
+        }
+
+        .profile-username {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-title {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--white);
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .action-btn.primary {
+            background: var(--accent-color);
+            color: var(--white);
+            border: none;
+        }
+
+        .action-btn:hover {
+            background: var(--light-bg);
+        }
+
+        .action-btn.primary:hover {
+            background: #0081d6;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: var(--secondary-color);
+        }
+
+        .profile-bio {
+            color: var(--primary-color);
+            line-height: 1.5;
+        }
+
+        .profile-bio h2 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .bio-edit {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .bio-edit textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            resize: vertical;
+        }
+
+        .bio-edit .bio-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .bio-edit button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .bio-edit .save-btn {
+            background: var(--accent-color);
+            color: var(--white);
+        }
+
+        .bio-edit .cancel-btn {
+            background: var(--light-bg);
+            color: var(--secondary-color);
+        }
+
+        /* Content Tabs */
+        .content-tabs {
+            display: flex;
+            justify-content: center;
+            border-top: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--primary-color);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .grid-item {
+            position: relative;
+            aspect-ratio: 1;
+            cursor: pointer;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .grid-item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .grid-item:hover .grid-item-overlay {
+            opacity: 1;
+        }
+
+        .overlay-stat {
+            color: var(--white);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Certificate Upload */
+        .certificate-upload {
+            position: relative;
+            background: var(--white);
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            transition: var(--transition);
+            overflow: visible;
+        }
+
+        .certificate-upload:hover {
+            border-color: var(--accent-color);
+            background: var(--light-bg);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-text {
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .upload-btn {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            background: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 149, 246, 0.2);
+        }
+
+        .upload-btn:hover {
+            background: #0081d6;
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 149, 246, 0.3);
+        }
+
+        .upload-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* Skills Section */
+        .skills-section {
+            margin-top: 2rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill-item {
+            background: var(--light-bg);
+            padding: 0.8rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .skill-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .skill-item i {
+            color: var(--accent-color);
+        }
+
+        .certificate-form {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 8px;
+        }
+
+        .certificate-form input,
+        .certificate-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .certificate-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .certificate-form .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .certificate-form button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .certificate-form .save-btn {
+            background: var(--accent-color);
+            color: var(--white);
+        }
+
+        .certificate-form .cancel-btn {
+            background: var(--light-bg);
+            color: var(--secondary-color);
+        }
+
+        .certificate-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .certificate-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .certificate-content {
+            padding: 1rem;
+        }
+
+        .certificate-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .certificate-description {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .certificate-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .certificate-actions button {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .certificate-actions .view-btn {
+            background: var(--accent-color);
+            color: var(--white);
+        }
+
+        .certificate-actions .delete-btn {
+            background: var(--light-bg);
+            color: var(--secondary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .profile-header-top {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .profile-stats {
+                justify-content: center;
+            }
+
+            .content-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                CarrySkills
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="contact.html"><i class="fas fa-phone-alt"></i> Contact</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
+                    <li><a href="profile.html" class="active"><i class="fas fa-user"></i> Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Profile Header -->
+        <section class="profile-header">
+            <div class="cover-photo-container">
+                <img src="https://source.unsplash.com/random/1200x350/?nature,landscape" alt="Cover Photo" class="cover-photo" id="coverPhoto">
+                <button class="edit-cover-photo" onclick="document.getElementById('coverPhotoInput').click()">
+                    <i class="fas fa-camera"></i>
+                    Edit Cover Photo
+                </button>
+                <input type="file" id="coverPhotoInput" accept="image/*" style="display: none;">
+                
+                <div class="profile-picture-wrapper">
+                    <img id="profileImage" src="https://via.placeholder.com/168" alt="Profile Picture" class="profile-picture">
+                    <button class="profile-picture-edit" onclick="document.getElementById('profilePictureInput').click()">
+                        <i class="fas fa-camera"></i>
+                        Change Profile Photo
+                    </button>
+                    <button class="profile-upload-btn" onclick="document.getElementById('profilePictureInput').click()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
+                </div>
+            </div>
+            
+            <div class="profile-info">
+                <div class="profile-header-top">
+                    <div class="profile-name-section">
+                        <h1 id="userName" class="profile-username">John Doe</h1>
+                        <h2 id="userTitle" class="profile-title">Computer Science Student</h2>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="action-btn primary" onclick="toggleEditMode('personalInfo')">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-cog"></i> Settings
+                        </button>
+                    </div>
+           
+              
+        </section>
+
+        <!-- Skills Section -->
+        <section class="skills-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-code"></i>
+                    Skills
+                </h2>
+                <button class="edit-btn" onclick="toggleSkillsEdit()">
+                    <i class="fas fa-edit"></i> Edit Skills
+                </button>
+            </div>
+            <div class="skills-grid" id="skillsGrid">
+                <!-- Skills will be dynamically added here -->
+            </div>
+            <div class="skills-edit" id="skillsEdit">
+                <div class="skill-categories">
+                    <div class="skill-category">
+                        <h3>Programming Languages</h3>
+                        <div class="skill-options">
+                            <label><input type="checkbox" value="Python" data-category="programming"> Python</label>
+                            <label><input type="checkbox" value="Java" data-category="programming"> Java</label>
+                            <label><input type="checkbox" value="JavaScript" data-category="programming"> JavaScript</label>
+                            <label><input type="checkbox" value="C++" data-category="programming"> C++</label>
+                            <label><input type="checkbox" value="SQL" data-category="programming"> SQL</label>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Frameworks & Tools</h3>
+                        <div class="skill-options">
+                            <label><input type="checkbox" value="React" data-category="frameworks"> React</label>
+                            <label><input type="checkbox" value="Node.js" data-category="frameworks"> Node.js</label>
+                            <label><input type="checkbox" value="Django" data-category="frameworks"> Django</label>
+                            <label><input type="checkbox" value="Spring" data-category="frameworks"> Spring</label>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Technologies</h3>
+                        <div class="skill-options">
+                            <label><input type="checkbox" value="AWS" data-category="tech"> AWS</label>
+                            <label><input type="checkbox" value="Docker" data-category="tech"> Docker</label>
+                            <label><input type="checkbox" value="Git" data-category="tech"> Git</label>
+                            <label><input type="checkbox" value="MongoDB" data-category="tech"> MongoDB</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="cancel-btn" onclick="toggleSkillsEdit()">Cancel</button>
+                    <button class="save-btn" onclick="saveSkills()">Save Changes</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Grid -->
+        <div class="content-grid" id="certificateGrid">
+            <!-- Certificates will be dynamically added here -->
+        </div>
+
+        <!-- Certificate Upload -->
+        <div class="certificate-upload" id="certificateUploadArea">
+            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+            <p class="upload-text">Drag and drop your certificates here</p>
+            <input type="file" id="certificateInput" accept="image/*,.pdf" multiple style="display: none;">
+            <button class="upload-btn" onclick="document.getElementById('certificateInput').click()">
+                <i class="fas fa-plus"></i> Add Certificate
+            </button>
+        </div>
+
+        <!-- Certificate Form -->
+        <div class="certificate-form" id="certificateForm">
+            <input type="text" id="certificateTitle" placeholder="Certificate Title" required>
+            <textarea id="certificateDescription" placeholder="Certificate Description" required></textarea>
+            <div class="form-actions">
+                <button class="cancel-btn" onclick="toggleCertificateForm()">Cancel</button>
+                <button class="save-btn" onclick="saveCertificate()">Save Certificate</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <p>Contact: support@careerguide.com | Address: Your City, Country</p>
+        <p>&copy; 2024 CareerGuide. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Certificate Upload Functionality
+        const certificateUploadArea = document.getElementById('certificateUploadArea');
+        const certificateInput = document.getElementById('certificateInput');
+        const certificateGrid = document.getElementById('certificateGrid');
+
+        // Load saved certificates
+        function loadCertificates() {
+            const savedCertificates = JSON.parse(localStorage.getItem('certificates') || '[]');
+            savedCertificates.forEach(cert => addCertificateToGrid(cert));
+        }
+
+        // Add certificate to grid
+        function addCertificateToGrid(certificate) {
+            const post = document.createElement('div');
+            post.className = 'certificate-post';
+            post.innerHTML = `
+                <div class="certificate-header">
+                    <img src="https://via.placeholder.com/40" alt="User">
+                    <h3>John Doe</h3>
+                </div>
+                <img src="${certificate.url}" alt="Certificate" class="certificate-image">
+                <div class="certificate-content">
+                    <h4>${certificate.title}</h4>
+                    <p>Issued by: ${certificate.issuer}</p>
+                    <p>Date: ${certificate.date}</p>
+                </div>
+                <div class="certificate-actions">
+                    <button onclick="viewCertificate(this)">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                    <button class="delete" onclick="deleteCertificate(this)">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            `;
+            certificateGrid.appendChild(post);
+        }
+
+        // Handle file selection
+        certificateInput.addEventListener('change', handleFiles);
+
+        // Handle drag and drop
+        certificateUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            certificateUploadArea.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color');
+        });
+
+        certificateUploadArea.addEventListener('dragleave', () => {
+            certificateUploadArea.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+        });
+
+        certificateUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            certificateUploadArea.style.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+            const files = e.dataTransfer.files;
+            handleFiles({ target: { files } });
+        });
+
+        // Handle files
+        function handleFiles(e) {
+            const files = e.target.files;
+            for (let file of files) {
+                if (file.type.startsWith('image/') || file.type === 'application/pdf') {
+                    uploadFile(file);
+                } else {
+                    showError('Please upload only images or PDF files.');
+                }
+            }
+        }
+
+        // Upload file
+        function uploadFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const certificate = {
+                    url: e.target.result,
+                    title: file.name.split('.')[0],
+                    issuer: 'Issuing Organization',
+                    date: new Date().toLocaleDateString()
+                };
+                addCertificateToGrid(certificate);
+                saveCertificate(certificate);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Save certificate
+        function saveCertificate(certificate) {
+            const certificates = JSON.parse(localStorage.getItem('certificates') || '[]');
+            certificates.push(certificate);
+            localStorage.setItem('certificates', JSON.stringify(certificates));
+        }
+
+        // View certificate
+        function viewCertificate(button) {
+            const post = button.closest('.certificate-post');
+            const img = post.querySelector('.certificate-image');
+            window.open(img.src, '_blank');
+        }
+
+        // Delete certificate
+        function deleteCertificate(button) {
+            if (confirm('Are you sure you want to delete this certificate?')) {
+                const post = button.closest('.certificate-post');
+                post.remove();
+                updateLocalStorage();
+            }
+        }
+
+        // Update localStorage
+        function updateLocalStorage() {
+            const certificates = Array.from(certificateGrid.querySelectorAll('.certificate-post')).map(post => ({
+                url: post.querySelector('.certificate-image').src,
+                title: post.querySelector('h4').textContent,
+                issuer: post.querySelector('p').textContent.split(': ')[1],
+                date: post.querySelectorAll('p')[1].textContent.split(': ')[1]
+            }));
+            localStorage.setItem('certificates', JSON.stringify(certificates));
+        }
+
+        // Show error message
+        function showError(message) {
+            alert(message);
+        }
+
+        // Load certificates on page load
+        loadCertificates();
+
+        // Load user data when page loads
+        function loadUserData() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            
+            // Update username and other profile information
+            document.getElementById('userName').textContent = currentUser.username || 'Guest User';
+            
+            // Update cover photo
+            if (currentUser.coverPhoto) {
+                document.getElementById('coverPhoto').src = currentUser.coverPhoto;
+            }
+            
+            // Update profile picture
+            if (currentUser.profilePicture) {
+                document.getElementById('profileImage').src = currentUser.profilePicture;
+            }
+            
+            // Update bio if exists
+            if (currentUser.bio) {
+                document.getElementById('userBio').textContent = currentUser.bio;
+            }
+
+            // Check if user is logged in
+            if (!currentUser.username) {
+                // Redirect to login page if not logged in
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Call loadUserData when page loads
+        window.addEventListener('load', loadUserData);
+
+        // Toggle edit mode for sections
+        function toggleEditMode(section) {
+            const form = document.getElementById(`${section}Form`);
+            const content = document.getElementById(`${section}Grid`);
+            
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                content.style.display = 'none';
+                populateForm(section);
+            } else {
+                form.style.display = 'none';
+                content.style.display = 'grid';
+            }
+        }
+
+        // Populate form with current data
+        function populateForm(section) {
+            if (section === 'personalInfo') {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                document.getElementById('nameInput').value = userData.name || '';
+                document.getElementById('titleInput').value = userData.title || '';
+                document.getElementById('emailInput').value = userData.email || '';
+                document.getElementById('phoneInput').value = userData.phone || '';
+                document.getElementById('locationInput').value = userData.location || '';
+                document.getElementById('educationInput').value = userData.education || '';
+            } else if (section === 'skills') {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                const skills = userData.skills || [];
+                document.querySelectorAll('.skill-options input').forEach(checkbox => {
+                    checkbox.checked = skills.includes(checkbox.value);
+                });
+            }
+        }
+
+        // Enhanced profile picture upload functionality
+        document.getElementById('profilePictureInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    alert('Please upload an image file');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const profileImage = document.getElementById('profileImage');
+                    profileImage.src = e.target.result;
+                    
+                    // Save to localStorage
+                    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                    userData.profilePicture = e.target.result;
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Make the entire profile picture area clickable
+        document.querySelector('.profile-picture-wrapper').addEventListener('click', function(e) {
+            document.getElementById('profilePictureInput').click();
+        });
+
+        // Prevent double-click on the camera icon
+        document.querySelector('.profile-picture-edit').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('profilePictureInput').click();
+        });
+
+        // Enhanced cover photo upload functionality
+        document.getElementById('coverPhotoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    alert('Please upload an image file');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const coverPhoto = document.getElementById('coverPhoto');
+                    coverPhoto.src = e.target.result;
+                    
+                    // Save to localStorage
+                    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                    userData.coverPhoto = e.target.result;
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Function to initialize default images if none exist
+        function initializeDefaultImages() {
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            const profileImage = document.getElementById('profileImage');
+            const coverPhoto = document.getElementById('coverPhoto');
+
+            // Set default profile picture if none exists
+            if (!userData.profilePicture) {
+                profileImage.src = 'https://via.placeholder.com/168';
+            } else {
+                profileImage.src = userData.profilePicture;
+            }
+
+            // Set default cover photo if none exists
+            if (!userData.coverPhoto) {
+                coverPhoto.src = 'https://source.unsplash.com/random/1200x350/?nature,landscape';
+            } else {
+                coverPhoto.src = userData.coverPhoto;
+            }
+        }
+
+        // Call initialization function when page loads
+        window.addEventListener('load', initializeDefaultImages);
+
+        // Update skills grid
+        function updateSkillsGrid(skills) {
+            const skillsGrid = document.getElementById('skillsGrid');
+            skillsGrid.innerHTML = '';
+            
+            skills.forEach(skill => {
+                const skillItem = document.createElement('div');
+                skillItem.className = 'skill-item';
+                skillItem.innerHTML = `
+                    <i class="fas fa-code"></i>
+                    <span>${skill}</span>
+                `;
+                skillsGrid.appendChild(skillItem);
+            });
+        }
+
+        // Save skills
+        function saveSkills() {
+            const selectedSkills = Array.from(document.querySelectorAll('.skill-options input:checked'))
+                .map(checkbox => checkbox.value);
+            
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            userData.skills = selectedSkills;
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            updateSkillsGrid(selectedSkills);
+            toggleEditMode('skills');
+        }
+
+        // Bio editing functionality
+        function toggleBioEdit() {
+            const bioEdit = document.getElementById('bioEdit');
+            const bioInput = document.getElementById('bioInput');
+            const userBio = document.getElementById('userBio');
+            
+            if (bioEdit.style.display === 'none') {
+                bioEdit.style.display = 'block';
+                bioInput.value = userBio.textContent;
+            } else {
+                bioEdit.style.display = 'none';
+            }
+        }
+
+        function saveBio() {
+            const bioInput = document.getElementById('bioInput');
+            const userBio = document.getElementById('userBio');
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            
+            userBio.textContent = bioInput.value;
+            userData.bio = bioInput.value;
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            toggleBioEdit();
+        }
+
+        // Skills editing functionality
+        function toggleSkillsEdit() {
+            const skillsEdit = document.getElementById('skillsEdit');
+            const skillsGrid = document.getElementById('skillsGrid');
+            
+            if (skillsEdit.style.display === 'none') {
+                skillsEdit.style.display = 'block';
+                skillsGrid.style.display = 'none';
+                populateSkillsForm();
+            } else {
+                skillsEdit.style.display = 'none';
+                skillsGrid.style.display = 'grid';
+            }
+        }
+
+        function populateSkillsForm() {
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            const skills = userData.skills || [];
+            
+            document.querySelectorAll('.skill-options input').forEach(checkbox => {
+                checkbox.checked = skills.includes(checkbox.value);
+            });
+        }
+
+        // Certificate form functionality
+        function toggleCertificateForm() {
+            const certificateForm = document.getElementById('certificateForm');
+            certificateForm.style.display = certificateForm.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function saveCertificate() {
+            const title = document.getElementById('certificateTitle').value;
+            const description = document.getElementById('certificateDescription').value;
+            
+            if (!title || !description) {
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            const certificate = {
+                title,
+                description,
+                date: new Date().toLocaleDateString(),
+                image: currentCertificateImage
+            };
+            
+            addCertificateToGrid(certificate);
+            saveCertificateToStorage(certificate);
+            toggleCertificateForm();
+            
+            // Reset form
+            document.getElementById('certificateTitle').value = '';
+            document.getElementById('certificateDescription').value = '';
+            currentCertificateImage = null;
+        }
+
+        let currentCertificateImage = null;
+
+        // Handle certificate image upload
+        certificateInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentCertificateImage = e.target.result;
+                    toggleCertificateForm();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html> 
